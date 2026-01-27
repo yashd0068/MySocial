@@ -1,13 +1,12 @@
 const { Sequelize } = require("sequelize");
 require("dotenv").config();
 
-const sequelize = new Sequelize(
-    process.env.DB_NAME,
-    process.env.DB_USER,
-    process.env.DB_PASSWORD,
-    {
-        host: process.env.DB_HOST,
-        port: 5432, // PostgreSQL port
+let sequelize;
+
+// Check if DATABASE_URL exists (for production on Render)
+if (process.env.DATABASE_URL) {
+    // Use the full connection string from Supabase for production
+    sequelize = new Sequelize(process.env.DATABASE_URL, {
         dialect: "postgres",
         dialectOptions: {
             ssl: {
@@ -16,8 +15,29 @@ const sequelize = new Sequelize(
             }
         },
         logging: false
-    }
-);
+    });
+    console.log("📊 Using DATABASE_URL connection");
+} else {
+    // Use individual variables for development
+    sequelize = new Sequelize(
+        process.env.DB_NAME,
+        process.env.DB_USER,
+        process.env.DB_PASSWORD,
+        {
+            host: process.env.DB_HOST,
+            port: 5432,
+            dialect: "postgres",
+            dialectOptions: {
+                ssl: {
+                    require: true,
+                    rejectUnauthorized: false
+                }
+            },
+            logging: false
+        }
+    );
+    console.log("💻 Using individual DB variables");
+}
 
 // Test the connection
 sequelize
