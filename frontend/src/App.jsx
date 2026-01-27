@@ -4,7 +4,7 @@ import Register from "./pages/Register";
 import Home from "./pages/Home";
 // import AddTodo from "./pages/AddTodo";
 // import Edittodo from "./pages/Edittodo";
-import PrivateRoute from "./routes/PrivateRoute";
+import PrivateRoute from "./routes/privateRoute";
 import PublicRoute from "./routes/PublicRoute";
 import Landing from "./pages/Landing";
 // import Profile from "./pages/Profile";
