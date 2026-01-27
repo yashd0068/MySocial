@@ -2568,7 +2568,8 @@ import {
 } from "lucide-react";
 import toast, { Toaster } from 'react-hot-toast';
 
-const SOCKET_URL = "http://localhost:5000";
+//const SOCKET_URL = "http://localhost:5000";
+const SOCKET_URL = "https://mysocial-cqxp.onrender.com"
 
 const ChatWindow = ({ chatId, currentUser, onClose, onBack, otherParticipant }) => {
     const [messages, setMessages] = useState([]);
