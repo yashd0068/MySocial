@@ -14,13 +14,14 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 references: {
-                    model: "Posts",
+                    model: "posts",
                     key: "post_id",
                 },
             },
         },
         {
             tableName: "likes",
+            freezeTableName: true,
             timestamps: true,
             indexes: [
                 {

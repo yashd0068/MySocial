@@ -14,6 +14,8 @@ module.exports = (sequelize, DataTypes) => {
             name: {
                 type: DataTypes.STRING,
                 allowNull: false,
+                tableName: "users",
+                freezeTableName: true
             },
 
             email: {
@@ -37,6 +39,7 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: true,
             },
+
 
             authType: {
                 type: DataTypes.STRING,

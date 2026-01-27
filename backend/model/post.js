@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         {
             tableName: "posts",
+            freezeTableName: true,
             timestamps: true,
             indexes: [{ fields: ["user_id"] }],
         }

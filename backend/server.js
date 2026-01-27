@@ -5,7 +5,9 @@ const path = require("path");
 const http = require("http");
 const { Server } = require("socket.io");
 
-const sequelize = require("./config/db");
+//const sequelize = require("./config/db");
+const db = require("./model");
+
 const chatRoutes = require("./routes/chatRoutes");
 const userRoutes = require("./routes/userRoutes");
 
@@ -271,15 +273,17 @@ setInterval(() => {
 }, 1000); // Check every second
 
 // ---------------- DATABASE + SERVER ----------------
-sequelize
-    .sync()
+
+
+
+db.sequelize
+    .sync({ force: true })   // dev only
     .then(() => {
-        console.log("Database synced successfully");
+        console.log("✅ Database synced successfully");
         server.listen(PORT, () => {
-            console.log(`Server running on port ${PORT}`);
-            console.log(`Socket.IO is ready with typing indicators and message status tracking`);
+            console.log(`🚀 Server running on port ${PORT}`);
         });
     })
     .catch((err) => {
-        console.error("Database sync error:", err);
+        console.error("❌ Database sync error:", err);
     });

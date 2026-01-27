@@ -7,12 +7,12 @@ module.exports = (sequelize, DataTypes) => {
             autoIncrement: true,
         },
         type: {
-            type: DataTypes.ENUM("like", "comment", "message", "follow"), // add more later if needed
+            type: DataTypes.ENUM("like", "comment", "message", "follow"),
             allowNull: false,
         },
         content: {
             type: DataTypes.STRING(255),
-            allowNull: false, // e.g. "John liked your post", "Sarah commented: Nice photo!"
+            allowNull: false,
         },
         is_read: {
             type: DataTypes.BOOLEAN,

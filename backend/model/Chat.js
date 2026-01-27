@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
         }
     }, {
         tableName: 'chats',
+        freezeTableName: true,
         timestamps: true,
         createdAt: 'createdAt',
         updatedAt: 'updatedAt'
