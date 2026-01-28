@@ -1,6 +1,7 @@
 import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import api from "../api/axios";
 
 const GoogleLoginButton = () => {
     const navigate = useNavigate();
@@ -9,11 +10,9 @@ const GoogleLoginButton = () => {
     const onSuccess = async (res) => {
         try {
 
-            const response = await axios.post(
-                "http://localhost:5000/api/auth/google",
-                {
-                    credential: res.credential,
-                }
+            const response = await api.post("/auth/google", {
+                credential: res.credential,
+            }
 
             );
 

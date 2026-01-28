@@ -5,6 +5,7 @@ import GoogleLoginButton from "./GoogleLoginButton";
 import { motion } from "framer-motion";
 import "remixicon/fonts/remixicon.css";
 import { Sparkles, ArrowRight } from "lucide-react";
+import api from "../api/axios";
 
 export default function Register() {
     const [form, setForm] = useState({ name: "", email: "", password: "" });
@@ -22,22 +23,14 @@ export default function Register() {
         }
 
         try {
-            const res = await fetch("http://localhost:5000/api/users/register", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(form),
-            });
+            await api.post("/users/register", form);
 
-            const data = await res.json();
-
-            if (res.ok) {
-                toast.success("Registration successful!");
-                navigate("/login");
-            } else {
-                toast.error(data.message || "Registration failed!");
-            }
+            toast.success("Registration successful!");
+            navigate("/login");
         } catch (err) {
-            toast.error("Error connecting to server!");
+            toast.error(
+                err.response?.data?.message || "Registration failed!"
+            );
         }
     };
 

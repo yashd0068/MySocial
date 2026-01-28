@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import api from "../api/axios";
 
 export default function GithubCallback() {
     const navigate = useNavigate();
@@ -14,21 +15,11 @@ export default function GithubCallback() {
             return;
         }
 
-        fetch("http://localhost:5000/api/auth/github", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ code }),
-        })
-            .then((res) => res.json()) // back res to js object 
-
-            .then((data) => {
-                if (data.token) {
-                    localStorage.setItem("token", data.token);
-                    toast.success("Logged in with GitHub!");
-                    navigate("/home");
-                } else {
-                    throw new Error("No token");
-                }
+        api.post("/auth/github", { code })
+            .then((res) => {
+                localStorage.setItem("token", res.data.token);
+                toast.success("Logged in with GitHub!");
+                navigate("/home");
             })
             .catch(() => {
                 toast.error("GitHub authentication failed");
