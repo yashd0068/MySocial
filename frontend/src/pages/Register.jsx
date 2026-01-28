@@ -66,8 +66,8 @@ export default function Register() {
     return (
         <div className="min-h-screen bg-white text-gray-900 overflow-x-hidden">
             {/* Background effects */}
-            <div className="fixed top-1/4 left-10 w-72 h-72 bg-purple-200 rounded-full blur-3xl opacity-20" />
-            <div className="fixed bottom-1/4 right-10 w-96 h-96 bg-pink-200 rounded-full blur-3xl opacity-20" />
+            <div className="fixed top-1/4 left-10 w-72 h-72 bg-purple-200 rounded-full blur-3xl opacity-20 pointer-events-none" />
+            <div className="fixed bottom-1/4 right-10 w-96 h-96 bg-pink-200 rounded-full blur-3xl opacity-20 pointer-events-none" />
 
             {/* Navbar (UNCHANGED) */}
             <motion.header
