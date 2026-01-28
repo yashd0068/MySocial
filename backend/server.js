@@ -337,29 +337,20 @@ setInterval(() => {
 
 server.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
+    console.log(`🔗 Backend URL: https://mysocial-cqxp.onrender.com`);
 });
 
-// ---------------- DATABASE INIT ----------------
-// ---------------- DATABASE INIT ----------------
+// ---------------- THEN TRY DATABASE ----------------
 (async () => {
     try {
-        console.log("🔗 Connecting to database...");
-
-        // Wait for connection
+        console.log("🔄 Trying to connect to database...");
         await db.sequelize.authenticate();
-        console.log("✅ Database connected");
+        console.log("✅ Database connected!");
 
-        // Wait for sync (use alter: false in production!)
-        const syncOptions = process.env.NODE_ENV === 'production'
-            ? { alter: false }
-            : { alter: true };
-
-        await db.sequelize.sync(syncOptions);
-        console.log("✅ Database models synced");
-
-    } catch (error) {
-        console.error("❌ Database connection/sync failed:", error);
-        console.error("Full error details:", error);
-        process.exit(1); // Exit if database fails
+        await db.sequelize.sync();
+        console.log("✅ Tables synced!");
+    } catch (err) {
+        console.error("❌ Database failed but server is running");
+        console.error("Error:", err.message);
     }
 })();
