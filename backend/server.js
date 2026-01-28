@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware ---------------- 
 app.use(cors({
-    origin: "my-social-gdmw1r930-yashd0068s-projects.vercel.app", // <-- your Vercel frontend URL
+    origin: "https://my-social-gdmw1r930-yashd0068s-projects.vercel.app", // <-- your Vercel frontend URL
     credentials: true
 }));
 
@@ -281,7 +281,7 @@ setInterval(() => {
 
 
 db.sequelize
-    .sync({ force: true })   // dev only
+    .sync({ alter: true })   // dev only
     .then(() => {
         console.log("✅ Database synced successfully");
         server.listen(PORT, () => {
