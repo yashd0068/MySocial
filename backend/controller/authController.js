@@ -19,33 +19,39 @@ exports.googleAuth = async (req, res) => {
         });
 
         const payload = ticket.getPayload();
-        const { email, name, picture, sub: googleId } = payload;
+        const { email, name, picture } = payload;
 
+        let user = await User.findOne({ where: { email } });
 
-        let token = null // WE STORE JWT TOKEN IN IT LATER
-
-        const existing = await User.findOne({ where: { email } });
-        if (existing) {
-
-            token = jwt.sign(
-                { user_id: existing.user_id, email: existing.email },
-                process.env.JWT_SECRET,
-                { expiresIn: "7d" }
-            );
+        if (!user) {
+            user = await User.create({ name, email });
         }
 
-        else {
-            const newUser = await User.create({ name, email });
-            token = jwt.sign(
-                { user_id: newUser.user_id, email: newUser.email },
-                process.env.JWT_SECRET,
-                { expiresIn: "7d" }
-            );
-        }
+        const token = jwt.sign(
+            { user_id: user.user_id, email: user.email },
+            process.env.JWT_SECRET,
+            { expiresIn: "7d" }
+        );
 
-        return res.status(200).json({ success: true, token, user: { email, name, picture } });
+        // ✅ CRITICAL FIX: Send JWT as COOKIE
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,      // Render = HTTPS
+            sameSite: "none",  // Vercel ↔ Render
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        });
+
+        return res.status(200).json({
+            success: true,
+            user: {
+                email,
+                name,
+                picture
+            }
+        });
+
     } catch (error) {
         console.error("Google Auth Error:", error);
-        res.status(401).json({ message: "Google authentication failed" });
+        return res.status(401).json({ message: "Google authentication failed" });
     }
 };
