@@ -18,17 +18,17 @@ if (process.env.DATABASE_URL) {
     });
     console.log("📊 Using DATABASE_URL connection");
 } else {
-    // Use individual variables for development
+
     sequelize = new Sequelize(
         process.env.DB_NAME,
         process.env.DB_USER,
         process.env.DB_PASSWORD,
-        process.env.DB_PORT || 6543,
+
 
 
         {
             host: process.env.DB_HOST,
-            port: 6543,
+            port: process.env.DB_PORT || 5432,
             dialect: "postgres",
             dialectOptions: {
                 ssl: {
