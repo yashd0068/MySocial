@@ -16,7 +16,7 @@ db.Chat = require("./Chat")(sequelize, DataTypes);
 /* ================= DEPENDENT TABLES ================= */
 db.Like = require("./like")(sequelize, DataTypes);
 db.Comment = require("./Comment")(sequelize, DataTypes);
-db.Follow = require("./Follow")(sequelize, DataTypes);
+db.Follow = require("./follow")(sequelize, DataTypes);
 db.Message = require("./Message")(sequelize, DataTypes);
 
 /* ================= OPTIONAL TABLES ================= */
