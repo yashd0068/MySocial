@@ -58,12 +58,47 @@ const transporter = require("../config/mailer");
 
 exports.register = async (req, res) => {
     try {
-        return res.status(201).json({ message: "Backend working!" });
+        const { name, email, password } = req.body;
+
+
+        if (!name || !email || !password) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
+
+        if (password.length < 8) {
+            return res.status(400).json({
+                message: "Password must be at least 8 characters",
+            });
+        }
+
+        const existing = await User.findOne({
+            where: { email: email.toLowerCase() },
+        });
+
+        if (existing) {
+            return res.status(400).json({ message: "User already exists" });
+        }
+
+        const newUser = await User.create({
+            name,
+            email: email.toLowerCase(),
+            password,
+            authType: "local",
+        });
+
+        const token = jwt.sign(
+            { user_id: newUser.user_id },
+            process.env.JWT_SECRET,
+            { expiresIn: "7d" }
+        );
+
+        res.status(201).json({ token });
     } catch (err) {
-        console.error(err);
+        console.error("REGISTER ERROR:", err);
         res.status(500).json({ message: err.message });
     }
 };
+
 
 /* ================= LOGIN ================= */
 exports.login = async (req, res) => {
