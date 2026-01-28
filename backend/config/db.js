@@ -5,16 +5,27 @@ let sequelize;
 
 // Check if DATABASE_URL exists (for production on Render)
 if (process.env.DATABASE_URL) {
-    // Use the full connection string from Supabase for production
     sequelize = new Sequelize(process.env.DATABASE_URL, {
         dialect: "postgres",
         dialectOptions: {
             ssl: {
                 require: true,
                 rejectUnauthorized: false
-            }
+            },
+            connectTimeout: 30000, // 30 seconds timeout
+            keepAlive: true
         },
-        logging: false
+        logging: false,
+        pool: {
+            max: 5,
+            min: 0,
+            acquire: 30000, // 30 seconds to acquire connection
+            idle: 10000
+        },
+        retry: {
+            max: 3, // Retry connection 3 times
+            timeout: 30000
+        }
     });
     console.log("📊 Using DATABASE_URL connection");
 } else {
@@ -43,9 +54,9 @@ if (process.env.DATABASE_URL) {
 }
 
 // Test the connection
-sequelize
-    .authenticate()
-    .then(() => console.log("✅ PostgreSQL connected successfully"))
-    .catch((err) => console.error("❌ PostgreSQL connection error:", err));
+// sequelize
+//     .authenticate()
+//     .then(() => console.log("✅ PostgreSQL connected successfully"))
+//     .catch((err) => console.error("❌ PostgreSQL connection error:", err));
 
-module.exports = sequelize;
+// module.exports = sequelize;

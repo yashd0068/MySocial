@@ -40,7 +40,31 @@ app.use((req, res, next) => {
     next();
 });
 
+// Simple health check
+app.get('/health', (req, res) => {
+    res.json({
+        status: 'ok',
+        database: 'checking...',
+        timestamp: new Date().toISOString()
+    });
+});
 
+// Test database connection
+app.get('/test-db', async (req, res) => {
+    try {
+        const [result] = await db.sequelize.query('SELECT NOW() as time');
+        res.json({
+            success: true,
+            message: 'Database connected',
+            time: result[0].time
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+});
 // Routes --------------------
 app.use("/api/users", userRoutes);
 app.use("/api/auth", require("./routes/authRoutes"));
@@ -316,15 +340,26 @@ server.listen(PORT, () => {
 });
 
 // ---------------- DATABASE INIT ----------------
+// ---------------- DATABASE INIT ----------------
 (async () => {
     try {
+        console.log("🔗 Connecting to database...");
+
+        // Wait for connection
         await db.sequelize.authenticate();
         console.log("✅ Database connected");
 
-        // ⚠️ alter:true is NOT recommended in production
-        await db.sequelize.sync();
-        console.log("✅ Database synced");
+        // Wait for sync (use alter: false in production!)
+        const syncOptions = process.env.NODE_ENV === 'production'
+            ? { alter: false }
+            : { alter: true };
+
+        await db.sequelize.sync(syncOptions);
+        console.log("✅ Database models synced");
+
     } catch (error) {
         console.error("❌ Database connection/sync failed:", error);
+        console.error("Full error details:", error);
+        process.exit(1); // Exit if database fails
     }
 })();
