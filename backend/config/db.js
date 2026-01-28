@@ -25,7 +25,7 @@ if (process.env.DATABASE_URL) {
         process.env.DB_PASSWORD,
         {
             host: process.env.DB_HOST,
-            port: 5432,
+            port: 6543,
             dialect: "postgres",
             dialectOptions: {
                 ssl: {
