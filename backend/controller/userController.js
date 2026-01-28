@@ -11,7 +11,6 @@ exports.register = async (req, res) => {
     try {
         const { name, email, password } = req.body;
 
-
         if (!name || !email || !password) {
             return res.status(400).json({ message: "All fields are required" });
         }
@@ -22,6 +21,7 @@ exports.register = async (req, res) => {
             });
         }
 
+        // Check if user already exists
         const existing = await User.findOne({
             where: { email: email.toLowerCase() },
         });
@@ -30,13 +30,19 @@ exports.register = async (req, res) => {
             return res.status(400).json({ message: "User already exists" });
         }
 
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Create user
         const newUser = await User.create({
             name,
             email: email.toLowerCase(),
-            password,
-            authType: "local",
+            password: hashedPassword,  // ✅ store hashed password
+            authType: "local",          // local registration
+            passwordSet: true,          // ✅ mark password as set
         });
 
+        // Generate JWT token
         const token = jwt.sign(
             { user_id: newUser.user_id },
             process.env.JWT_SECRET,

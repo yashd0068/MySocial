@@ -315,7 +315,7 @@ server.listen(PORT, () => {
         console.log("✅ Database connected");
 
         // ⚠️ alter:true is NOT recommended in production
-        await db.sequelize.sync({ alter: true });
+        await db.sequelize.sync();
         console.log("✅ Database synced");
     } catch (error) {
         console.error("❌ Database connection/sync failed:", error);
