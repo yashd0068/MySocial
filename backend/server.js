@@ -16,7 +16,19 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware ---------------- 
 app.use(cors({
-    origin: "https://my-social-gdmw1r930-yashd0068s-projects.vercel.app", // <-- your Vercel frontend URL
+    origin: function (origin, callback) {
+        const allowedOrigins = [
+            "https://my-social-phi.vercel.app",
+            "https://my-social-gdmw1r930-yashd0068s-projects.vercel.app",
+            "http://localhost:5173"
+        ];
+
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
     credentials: true
 }));
 
