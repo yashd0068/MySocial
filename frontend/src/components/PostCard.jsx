@@ -216,7 +216,7 @@ const PostCard = ({ post, currentUser, onPostUpdated, onPostDeleted }) => {
                         >
                             {post.User?.profilePic ? (
                                 <img
-                                    src={`http://localhost:5000${post.User.profilePic}`}
+                                    src={`http://mysocial-cqxp.onrender.com${post.User.profilePic}`}
                                     alt={post.User.name}
                                     className="h-12 w-12 rounded-full object-cover border-2 border-white shadow-sm"
                                 />
@@ -345,7 +345,7 @@ const PostCard = ({ post, currentUser, onPostUpdated, onPostDeleted }) => {
                         className="mt-4 rounded-xl overflow-hidden border border-gray-200"
                     >
                         <img
-                            src={`http://localhost:5000${post.image_url}`}
+                            src={`http://mysocial-cqxp.onrender.com${post.image_url}`}
                             alt="Post content"
                             className="w-full h-auto max-h-96 object-cover"
                             loading="lazy"
@@ -457,7 +457,7 @@ const PostCard = ({ post, currentUser, onPostUpdated, onPostDeleted }) => {
                                                 >
                                                     {comment.User.profilePic ? (
                                                         <img
-                                                            src={`http://localhost:5000${comment.User.profilePic}`}
+                                                            src={`http://mysocial-cqxp.onrender.com${comment.User.profilePic}`}
                                                             alt={comment.User.name}
                                                             className="h-8 w-8 rounded-full object-cover"
                                                         />
@@ -604,7 +604,7 @@ const PostCard = ({ post, currentUser, onPostUpdated, onPostDeleted }) => {
                                     <div className="flex-shrink-0">
                                         {currentUser.profilePic ? (
                                             <img
-                                                src={`http://localhost:5000${currentUser.profilePic}`}
+                                                src={`http://mysocial-cqxp.onrender.com${currentUser.profilePic}`}
                                                 alt={currentUser.name}
                                                 className="h-9 w-9 rounded-full object-cover"
                                             />
@@ -667,7 +667,7 @@ const PostCard = ({ post, currentUser, onPostUpdated, onPostDeleted }) => {
                     <div className="flex-shrink-0">
                         {currentUser.profilePic ? (
                             <img
-                                src={`http://localhost:5000${currentUser.profilePic}`}
+                                src={`http://mysocial-cqxp.onrender.com${currentUser.profilePic}`}
                                 alt={currentUser.name}
                                 className="h-8 w-8 rounded-full object-cover"
                             />

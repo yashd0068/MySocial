@@ -16,7 +16,7 @@ export default function Password() {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const res = await fetch("http://localhost:5000/api/users/me", {
+                const res = await fetch("https://mysocial-cqxp.onrender.com/api/users/me", {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 if (!res.ok) throw new Error("Failed to fetch user");
@@ -54,7 +54,7 @@ export default function Password() {
         }
 
         try {
-            const res = await fetch("http://localhost:5000/api/users/set-password", {
+            const res = await fetch("https://mysocial-cqxp.onrender.com/api/users/set-password", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -126,7 +126,7 @@ export default function Password() {
                                 <img
                                     src={
                                         user.profilePic
-                                            ? `http://localhost:5000${user.profilePic}`
+                                            ? `https://mysocial-cqxp.onrender.com${user.profilePic}`
                                             : "https://via.placeholder.com/40"
                                     }
                                     alt="Profile"

@@ -5,7 +5,7 @@ import io from "socket.io-client";
 import Navbar from "../components/Navbar"; // adjust path
 import api from "../api/axios";           // adjust path
 
-const SOCKET_URL = "http://localhost:5000"; // move to .env later
+const SOCKET_URL = "https://mysocial-cqxp.onrender.com"; // move to .env later
 
 function MainLayout() {
     const [currentUser, setCurrentUser] = useState(null);

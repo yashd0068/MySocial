@@ -140,7 +140,7 @@ const Navbar = ({ unreadCount = 0 }) => {
                                             <div className="flex items-start gap-3">
                                                 {notif.TriggerUser?.profilePic && (
                                                     <img
-                                                        src={`http://localhost:5000${notif.TriggerUser.profilePic}`}
+                                                        src={`http://mysocial-cqxp.onrender.com${notif.TriggerUser.profilePic}`}
                                                         alt={notif.TriggerUser.name}
                                                         className="w-8 h-8 rounded-full object-cover"
                                                     />

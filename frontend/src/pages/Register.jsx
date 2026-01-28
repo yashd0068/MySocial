@@ -36,7 +36,7 @@ export default function Register() {
 
     const githubLogin = () => {
         const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID;
-        const redirectUri = "http://localhost:5173/github-callback";
+        const redirectUri = "https://my-social-phi.vercel.app/github-callback";
 
         window.location.href =
             `https://github.com/login/oauth/authorize` +
@@ -47,7 +47,7 @@ export default function Register() {
 
     const facebookLogin = () => {
         const appId = import.meta.env.VITE_FACEBOOK_APP_ID;
-        const redirectUri = "http://localhost:5173/facebook-callback";
+        const redirectUri = "https://my-social-phi.vercel.app/facebook-callback";
 
         window.location.href =
             `https://www.facebook.com/v18.0/dialog/oauth` +

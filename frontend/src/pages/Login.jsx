@@ -30,7 +30,7 @@ export default function Login() {
         setIsLoading(true);
 
         try {
-            const response = await fetch("http://localhost:5000/api/users/login", {
+            const response = await fetch("https://mysocial-cqxp.onrender.com/api/users/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),
@@ -55,7 +55,7 @@ export default function Login() {
 
     const githubLogin = () => {
         const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID;
-        const redirectUri = "http://localhost:5173/github-callback";
+        const redirectUri = "https://my-social-phi.vercel.app/github-callback";
 
         window.location.href =
             `https://github.com/login/oauth/authorize` +

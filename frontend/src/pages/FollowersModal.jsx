@@ -33,7 +33,7 @@ const FollowersModal = ({ userId, type, onClose }) => {
                         users.map(u => (
                             <div key={u.user_id} className="flex items-center gap-3">
                                 <img
-                                    src={u.profilePic ? `http://localhost:5000${u.profilePic}` : "/default-profile.png"}
+                                    src={u.profilePic ? `http://mysocial-cqxp.onrender.com${u.profilePic}` : "/default-profile.png"}
                                     className="w-8 h-8 rounded-full"
                                 />
                                 <span>{u.name}</span>

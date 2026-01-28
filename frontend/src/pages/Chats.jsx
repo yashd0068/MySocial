@@ -261,7 +261,7 @@ const Chats = () => {
                                         <div className="relative">
                                             {follow.profilePic ? (
                                                 <img
-                                                    src={`http://localhost:5000${follow.profilePic}`}
+                                                    src={`http://mysocial-cqxp.onrender.com${follow.profilePic}`}
                                                     alt={follow.name}
                                                     className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm"
                                                 />
@@ -363,7 +363,7 @@ const Chats = () => {
 
                                                     {otherUser?.profilePic ? (
                                                         <img
-                                                            src={`http://localhost:5000${otherUser.profilePic}`}
+                                                            src={`http://mysocial-cqxp.onrender.com${otherUser.profilePic}`}
                                                             alt={otherUser.name}
                                                             className="w-14 h-14 rounded-full object-cover border-2 border-white shadow-sm"
                                                         />

@@ -595,7 +595,7 @@ const ChatList = ({ currentUser, onSelectChat, activeChatId, onNewChat, onTyping
                                         ) : otherUser?.profilePic ? (
                                             <>
                                                 <img
-                                                    src={`http://localhost:5000${otherUser.profilePic}`}
+                                                    src={`https://mysocial-cqxp.onrender.com${otherUser.profilePic}`}
                                                     alt={otherUser.name}
                                                     className="w-14 h-14 rounded-2xl object-cover border-2 border-white dark:border-gray-900 shadow-lg"
                                                 />

@@ -243,7 +243,7 @@ const Profile = () => {
                                     <label className="cursor-pointer block relative">
                                         <div className="relative">
                                             <img
-                                                src={profile.profilePic ? `http://localhost:5000${profile.profilePic}` : "https://via.placeholder.com/150"}
+                                                src={profile.profilePic ? `https://mysocial-cqxp.onrender.com${profile.profilePic}` : "https://via.placeholder.com/150"}
                                                 className="h-20 w-20 sm:h-24 sm:w-24 rounded-full object-cover border-2 border-white shadow"
                                                 alt={profile.name}
                                                 onError={(e) => {
@@ -264,7 +264,7 @@ const Profile = () => {
                                     </label>
                                 ) : (
                                     <img
-                                        src={profile.profilePic ? `http://localhost:5000${profile.profilePic}` : "https://via.placeholder.com/150"}
+                                        src={profile.profilePic ? `https://mysocial-cqxp.onrender.com${profile.profilePic}` : "https://via.placeholder.com/150"}
                                         className="h-20 w-20 sm:h-24 sm:w-24 rounded-full object-cover border-2 border-white shadow"
                                         alt={profile.name}
                                         onError={(e) => {

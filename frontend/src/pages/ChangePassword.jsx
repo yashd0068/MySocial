@@ -26,7 +26,7 @@ export default function ChangePassword() {
         const fetchUser = async () => {
             try {
                 setLoading(true);
-                const res = await fetch("http://localhost:5000/api/users/me", {
+                const res = await fetch("http://mysocial-cqxp.onrender.com/api/users/me", {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
@@ -89,8 +89,8 @@ export default function ChangePassword() {
 
         try {
             const endpoint = hasPassword
-                ? "http://localhost:5000/api/users/change-password"
-                : "http://localhost:5000/api/users/set-password";
+                ? "http://mysocial-cqxp.onrender.com/api/users/change-password"
+                : "http://mysocial-cqxp.onrender.com/api/users/set-password";
 
             const requestBody = hasPassword
                 ? {
@@ -192,7 +192,7 @@ export default function ChangePassword() {
                                 <img
                                     src={
                                         user.profilePic
-                                            ? `http://localhost:5000${user.profilePic}`
+                                            ? `http://mysocial-cqxp.onrender.com${user.profilePic}`
                                             : "https://via.placeholder.com/40"
                                     }
                                     alt="Profile"
