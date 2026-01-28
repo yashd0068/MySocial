@@ -23,7 +23,7 @@ if (process.env.DATABASE_URL) {
         process.env.DB_NAME,
         process.env.DB_USER,
         process.env.DB_PASSWORD,
-        process.env.DB_PORT || 5432,
+        process.env.DB_PORT || 6543,
 
 
         {
