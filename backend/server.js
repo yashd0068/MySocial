@@ -280,14 +280,32 @@ setInterval(() => {
 
 
 
-db.sequelize
-    .sync({ alter: true })   // dev only
-    .then(() => {
-        console.log("✅ Database synced successfully");
-        server.listen(PORT, () => {
-            console.log(`🚀 Server running on port ${PORT}`);
-        });
-    })
-    .catch((err) => {
-        console.error("❌ Database sync error:", err);
-    });
+// db.sequelize
+//     .sync({ alter: true })   // dev only
+//     .then(() => {
+//         console.log("✅ Database synced successfully");
+//         server.listen(PORT, () => {
+//             console.log(`🚀 Server running on port ${PORT}`);
+//         });
+//     })
+//     .catch((err) => {
+//         console.error("❌ Database sync error:", err);
+//     });
+
+server.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+});
+
+// ---------------- DATABASE INIT ----------------
+(async () => {
+    try {
+        await db.sequelize.authenticate();
+        console.log("✅ Database connected");
+
+        // ⚠️ alter:true is NOT recommended in production
+        await db.sequelize.sync({ alter: true });
+        console.log("✅ Database synced");
+    } catch (error) {
+        console.error("❌ Database connection/sync failed:", error);
+    }
+})();
