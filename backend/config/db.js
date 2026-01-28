@@ -23,6 +23,9 @@ if (process.env.DATABASE_URL) {
         process.env.DB_NAME,
         process.env.DB_USER,
         process.env.DB_PASSWORD,
+        process.env.DB_PORT || 5432,
+
+
         {
             host: process.env.DB_HOST,
             port: 6543,
