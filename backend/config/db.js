@@ -59,4 +59,4 @@ if (process.env.DATABASE_URL) {
 //     .then(() => console.log("✅ PostgreSQL connected successfully"))
 //     .catch((err) => console.error("❌ PostgreSQL connection error:", err));
 
-// module.exports = sequelize;
+module.exports = sequelize;
