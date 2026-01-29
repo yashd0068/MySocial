@@ -291,7 +291,7 @@ const Home = () => {
                                                 >
                                                     {u.profilePic ? (
                                                         <img
-                                                            src={`http://mysocial-cqxp.onrender.com${u.profilePic}`}
+                                                            src={`https://mysocial-cqxp.onrender.com${u.profilePic}`}
                                                             alt={u.name}
                                                             className="w-8 h-8 rounded-full object-cover"
                                                         />

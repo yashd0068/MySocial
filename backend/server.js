@@ -78,6 +78,13 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/notifications", require("./routes/notificationRoutes"));
 
 app.get("/", (req, res) => res.send("API is running..."));
+app.get("/health", (req, res) => {
+    res.json({
+        status: "ok",
+        time: new Date().toISOString(),
+        message: "Backend is running"
+    });
+});
 
 // ---------------- SOCKET.IO ----------------
 const server = http.createServer(app);

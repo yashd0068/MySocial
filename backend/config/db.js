@@ -61,6 +61,26 @@
 
 // module.exports = sequelize;
 
+// const { Sequelize } = require("sequelize");
+// require("dotenv").config();
+
+// console.log("🔄 Setting up database...");
+
+// const sequelize = new Sequelize(process.env.DATABASE_URL, {
+//     dialect: "postgres",
+//     dialectOptions: {
+//         ssl: {
+//             require: true,
+//             rejectUnauthorized: false
+//         }
+//     },
+//     logging: true  // Change to true to see SQL queries
+// });
+
+// console.log("Database config loaded");
+
+// module.exports = sequelize;
+
 const { Sequelize } = require("sequelize");
 require("dotenv").config();
 
