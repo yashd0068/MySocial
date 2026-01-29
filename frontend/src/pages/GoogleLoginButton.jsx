@@ -10,7 +10,7 @@ const GoogleLoginButton = () => {
         try {
 
             const response = await axios.post(
-                "http://mysocial-cqxp.onrender.com/api/auth/google",
+                "https://mysocial-cqxp.onrender.com/api/auth/google",
                 {
                     credential: res.credential,
                 }

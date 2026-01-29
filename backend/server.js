@@ -5,16 +5,14 @@ const path = require("path");
 const http = require("http");
 const { Server } = require("socket.io");
 
-//const sequelize = require("./config/db");
 const db = require("./model");
-
 const chatRoutes = require("./routes/chatRoutes");
 const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware ---------------- 
+// Middleware ----------------
 app.use(cors({
     origin: function (origin, callback) {
         const allowedOrigins = [
@@ -29,7 +27,8 @@ app.use(cors({
             callback(new Error("Not allowed by CORS"));
         }
     },
-    credentials: true
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 }));
 
 app.use(express.json());
@@ -40,31 +39,39 @@ app.use((req, res, next) => {
     next();
 });
 
-// Simple health check
-app.get('/health', (req, res) => {
+// Handle preflight requests
+app.options('*', cors());
+
+// Health endpoints
+app.get("/", (req, res) => res.send("API is running..."));
+
+app.get("/health", (req, res) => {
     res.json({
-        status: 'ok',
-        database: 'checking...',
-        timestamp: new Date().toISOString()
+        status: "ok",
+        time: new Date().toISOString(),
+        message: "Backend is running"
     });
 });
 
-// Test database connection
-app.get('/test-db', async (req, res) => {
+// Test database connection endpoint
+app.get("/test-db", async (req, res) => {
     try {
         const [result] = await db.sequelize.query('SELECT NOW() as time');
         res.json({
             success: true,
             message: 'Database connected',
-            time: result[0].time
+            time: result[0].time,
+            database: 'PostgreSQL'
         });
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: error.message
+            message: error.message,
+            database: 'Disconnected'
         });
     }
 });
+
 // Routes --------------------
 app.use("/api/users", userRoutes);
 app.use("/api/auth", require("./routes/authRoutes"));
@@ -74,24 +81,21 @@ app.use("/api/profile", require("./routes/profileRoutes"));
 app.use("/api/comments", require("./routes/commentRoutes"));
 app.use("/api/chat", chatRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
 app.use("/api/notifications", require("./routes/notificationRoutes"));
 
-app.get("/", (req, res) => res.send("API is running..."));
-app.get("/health", (req, res) => {
-    res.json({
-        status: "ok",
-        time: new Date().toISOString(),
-        message: "Backend is running"
-    });
-});
+
 
 // ---------------- SOCKET.IO ----------------
 const server = http.createServer(app);
 
 const io = new Server(server, {
     cors: {
-        origin: "*",
+        origin: [
+            "https://my-social-phi.vercel.app",
+            "https://my-social-gdmw1r930-yashd0068s-projects.vercel.app",
+            "http://localhost:5173"
+        ],
+        credentials: true
     },
     pingTimeout: 60000,
     pingInterval: 25000,
@@ -342,22 +346,55 @@ setInterval(() => {
 //         console.error("❌ Database sync error:", err);
 //     });
 
-server.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
-    console.log(`🔗 Backend URL: https://mysocial-cqxp.onrender.com`);
-});
 
-// ---------------- THEN TRY DATABASE ----------------
-(async () => {
-    try {
-        console.log("🔄 Trying to connect to database...");
-        await db.sequelize.authenticate();
-        console.log("✅ Database connected!");
+async function initializeDatabase() {
+    let attempts = 0;
+    const maxAttempts = 3;
 
-        await db.sequelize.sync();
-        console.log("✅ Tables synced!");
-    } catch (err) {
-        console.error("❌ Database failed but server is running");
-        console.error("Error:", err.message);
+    while (attempts < maxAttempts) {
+        attempts++;
+        console.log(`🔄 Database connection attempt ${attempts}/${maxAttempts}...`);
+
+        try {
+            await db.sequelize.authenticate();
+            console.log("✅ Database authenticated!");
+
+            // Sync models without altering (safe for production)
+            await db.sequelize.sync({ alter: false });
+            console.log("✅ Database models ready!");
+
+            return true;
+
+        } catch (error) {
+            console.error(`❌ Attempt ${attempts} failed:`, error.message);
+
+            if (attempts === maxAttempts) {
+                console.error("💀 Could not connect to database after all attempts");
+                return false;
+            }
+
+            // Wait before retrying
+            console.log("⏳ Waiting 5 seconds before retry...");
+            await new Promise(resolve => setTimeout(resolve, 5000));
+        }
     }
-})();
+}
+
+async function startServer() {
+    // Try to connect to database
+    const dbConnected = await initializeDatabase();
+
+    // Start server regardless of database connection
+    server.listen(PORT, () => {
+        console.log(`🚀 Server running on port ${PORT}`);
+        console.log(`🌐 Backend URL: https://mysocial-cqxp.onrender.com`);
+        console.log(`📊 Database: ${dbConnected ? '✅ Connected' : '❌ Disconnected'}`);
+        console.log(`🔧 Environment: ${process.env.NODE_ENV || 'development'}`);
+    });
+}
+
+// Start everything
+startServer().catch(error => {
+    console.error("💀 Failed to start server:", error);
+    process.exit(1);
+});
