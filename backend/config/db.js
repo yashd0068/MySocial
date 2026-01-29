@@ -64,7 +64,7 @@
 const { Sequelize } = require("sequelize");
 require("dotenv").config();
 
-console.log("🔄 Setting up database...");
+console.log("🔧 Database config loaded");
 
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: "postgres",
@@ -72,11 +72,24 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
         ssl: {
             require: true,
             rejectUnauthorized: false
-        }
+        },
+        connectTimeout: 30000
     },
-    logging: true  // Change to true to see SQL queries
+    logging: false,
+    pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
+    },
+    retry: {
+        max: 3
+    }
 });
 
-console.log("Database config loaded");
+// Simple connection test on startup
+sequelize.authenticate()
+    .then(() => console.log("✅ Database connected"))
+    .catch(err => console.log("⚠️ Database connection will retry:", err.message));
 
 module.exports = sequelize;
